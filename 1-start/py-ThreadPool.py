@@ -2,11 +2,12 @@ import concurrent.futures
 import logging
 from random import randint
 from time import sleep
-
+from concurrent.futures import ThreadPoolExecutor
+import concurrent.futures as pool
 
 def greeting(name):
    logging.debug(f'greeting for: {name}')
-   sleep(randint(0, 3))
+   sleep(randint(0, 2))
    return f"Hello {name}"
 
 
@@ -20,7 +21,7 @@ arguments = (
 
 if __name__ == '__main__':
    logging.basicConfig(level=logging.DEBUG, format='%(threadName)s %(message)s')
-   with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+   with ThreadPoolExecutor(max_workers=2) as executor:
       results = list(executor.map(greeting, arguments))
 
    logging.debug(results)
